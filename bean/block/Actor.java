@@ -17,6 +17,11 @@ public class Actor{
         this.x = x;
         this.y = y;
     }
+
+    public Actor copy(){
+        return new Actor(this.health, this.score, this.strength, this.type, this.x, this.y);
+    }
+
     public int getHealth() {
         return health;
     }
@@ -49,6 +54,12 @@ public class Actor{
     }
     public void setPosition(int x, int y) {
         this.x = x;
+        this.y = y;
+    }
+    public void setX(int x) {
+        this.x = x;
+    }
+    public void setY(int y) {
         this.y = y;
     }
 } 
