@@ -1,4 +1,4 @@
-package test;
+package FlaskTestPython;
 
 import java.io.IOException;
 import util.*;

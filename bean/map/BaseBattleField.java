@@ -26,6 +26,7 @@ public class BaseBattleField {
     }
 
     public void setActorAt(int x, int y, Actor actor) {
+        actor.setPosition(x, y);
         field[y][x] = actor;
     }
 }
