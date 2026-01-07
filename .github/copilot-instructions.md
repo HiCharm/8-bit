@@ -1,37 +1,41 @@
-# 8-bit Game Development Guidelines
+# AI Coding Agent Instructions for 8-bit Game Project
 
-## Project Overview
-This is a console-based grid game inspired by 1990s 8-bit aesthetics. The game features a 5x5 grid world where players control actors with health, score, strength, and position attributes.
+## Overview
+This is a hybrid Java-Python 8-bit style game with Java handling backend game logic and Python providing web/Tkinter frontends. Communication occurs via HTTP REST APIs using only standard libraries (no external JSON/HTTP dependencies).
 
 ## Architecture
-- **bean/block/**: Game entity models (Actor, MainActor)
-- **function/console/view/**: UI components extending abstract View class
-- **function/console/**: Game loop and console logic
+- **Java Backend**: Core game entities (Actors, BattleField) and HTTP server
+- **Python Frontend**: Flask web app and Tkinter GUI client
+- **Data Flow**: Python clients ↔ HTTP APIs ↔ Java game logic
 
 ## Key Components
-- **Actor**: Base class for game entities with health, score, strength, type, and (x,y) position
-- **MainActor**: Player character extending Actor
-- **View**: Abstract base for UI screens with `show()`, `update()`, and `clear()` methods
-- **GamingView**: Main game display showing 5x5 grid with ■ characters and right-side stats panel
-
-## Coding Patterns
-- Views use ANSI escape sequences (`\033[H\033[2J`) for console clearing
-- Grid display: 5x5 layout with stats overlay (health, score, level, items, turn)
-- Package structure: `bean` for data models, `function` for features
-- Method naming: `updata()` instead of `update()` (follow existing convention)
+- `bean/block/Actor.java`: Game entity with health/score/strength/type/position
+- `bean/map/BaseBattleField.java`: 2D grid storing Actor positions
+- `function/data/ActorData.java`: Predefined actor templates (Player, smallMonster, bigMonster, Wall)
+- `FlaskTestPython/JavaBackendServer.java`: HTTP server exposing `/api/actor/Player` (GET) and `/api/actor/update` (POST)
+- `python/app.py`: Flask app proxying requests to Java backend
+- `python/frontend.py`: Tkinter client for direct Java API interaction
 
 ## Development Workflow
-- Pure Java project, no build tools required
-- Run via `javac` compilation and `java` execution
-- Console-based with real-time display updates
-
-## File Structure Examples
-- New views should extend `View` and implement abstract methods
-- Actors placed in `bean/block/` with position coordinates
-- Game logic in `function/` packages
+1. **Compile Java**: `javac -d . *.java **/*.java` (recursive compilation)
+2. **Run Java Backend**: `java FlaskTestPython.JavaBackendServer` (starts on port 8080)
+3. **Run Python Frontend**: `python python/app.py` (Flask on 5000) or `python python/frontend.py` (Tkinter GUI)
+4. **Test Integration**: Run `FlaskTestPython/FlaskTest.py` to verify HTTP communication
 
 ## Conventions
-- Use ■ character for grid cells
-- Stats display format: "| Label: value" on right side
-- Position coordinates: (x,y) with 0-based indexing
-- Follow existing package naming (euipment → equipment, but maintain consistency)
+- **JSON Serialization**: Use `util/MakeJson.java` for Actor/BattleField to JSON conversion (no external libraries)
+- **HTTP Communication**: Use `util/NativeHttpClient.java` for Java HTTP requests (pure standard library)
+- **Actor Creation**: Always use `ActorData.getActor(type).copy()` to get fresh instances
+- **Positioning**: Battlefield uses [y][x] indexing (row-major order)
+- **Console Display**: Views in `function/console/view/` render battlefield as `[P][M][ ]` grids
+
+## Examples
+- Create battlefield with actors: See `test/Actor2JsonTest.java`
+- HTTP API usage: See `FlaskTestPython/FlaskTest.py`
+- Frontend integration: See `python/frontend.py` fetch_data_from_backend() method
+
+## Integration Points
+- Java backend APIs: GET `/api/actor/Player` returns `{"code":200,"data":{"health":5,"score":0,"strength":1,"x":0,"y":0}}`
+- POST `/api/actor/update` with `{"health":200}` updates and returns confirmation
+- Python frontends expect JSON responses with "code", "data", "msg" fields</content>
+<parameter name="filePath">d:\work\2026\8-bit\.github\copilot-instructions.md
