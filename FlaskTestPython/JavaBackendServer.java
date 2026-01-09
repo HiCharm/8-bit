@@ -61,6 +61,7 @@ public class JavaBackendServer {
             JsonParser jsonParser = new SimpleJsonParser();
             ResponseBuilder responseBuilder = new JsonResponseBuilder(jsonParser);
             DataService<Integer> playerHealthService = new PlayerHealthService();
+            DataService<String> userActionService = new UserActionService();
             
             // 注册处理器
             router.addRoute("/api/actor/Player", "GET", 
@@ -68,9 +69,9 @@ public class JavaBackendServer {
             router.addRoute("/api/actor/update", "POST", 
                 new UpdateActorHandler(responseBuilder, playerHealthService, jsonParser));
             router.addRoute("/api/user/action", "GET", 
-                new GetUserHandler(responseBuilder, new UserActionService()));
+                new GetUserHandler(responseBuilder, userActionService));
             router.addRoute("/api/user/update", "POST", 
-                new UpdateUserHandler(responseBuilder, new UserActionService(), jsonParser));
+                new UpdateUserHandler(responseBuilder, userActionService, jsonParser));
             
             // 启动服务器
             JavaBackendServer backendServer = new JavaBackendServer(router, responseBuilder);
