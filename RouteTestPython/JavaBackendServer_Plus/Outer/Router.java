@@ -1,4 +1,4 @@
-package FlaskTestPython.JavaBackendServer_Plus.Outer;
+package RouteTestPython.JavaBackendServer_Plus.Outer;
 
 // 路由管理器接口
 public interface Router {

@@ -1,6 +1,6 @@
-package FlaskTestPython.JavaBackendServer_Plus.DataService;
+package RouteTestPython.JavaBackendServer_Plus.DataService;
 
-import FlaskTestPython.JavaBackendServer_Plus.Outer.DataService;
+import RouteTestPython.JavaBackendServer_Plus.Outer.DataService;
 
 // 玩家血量服务
 public class PlayerHealthService implements DataService<Integer> {
