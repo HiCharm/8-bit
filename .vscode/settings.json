@@ -1,0 +1,5 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"  // 加载lib文件夹下所有的JAR包
+    ]
+}

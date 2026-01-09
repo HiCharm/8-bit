@@ -27,6 +27,7 @@ public class NativeHttpClient {
     }
 
     // 发送 GET 请求
+    @SuppressWarnings("deprecation")
     public static String doGet(String url) throws IOException {
         URL requestUrl = new URL(url);
         // 打开 HTTP 连接
@@ -53,6 +54,7 @@ public class NativeHttpClient {
     }
 
     // 发送 POST 请求（JSON 数据）
+    @SuppressWarnings("deprecation")
     public static String doPost(String url, String jsonData) throws IOException {
         URL requestUrl = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();

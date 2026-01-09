@@ -67,6 +67,10 @@ public class JavaBackendServer {
                 new GetActorHandler(responseBuilder, playerHealthService));
             router.addRoute("/api/actor/update", "POST", 
                 new UpdateActorHandler(responseBuilder, playerHealthService, jsonParser));
+            router.addRoute("/api/user/action", "GET", 
+                new GetUserHandler(responseBuilder, new UserActionService()));
+            router.addRoute("/api/user/update", "POST", 
+                new UpdateUserHandler(responseBuilder, new UserActionService(), jsonParser));
             
             // 启动服务器
             JavaBackendServer backendServer = new JavaBackendServer(router, responseBuilder);
