@@ -2,8 +2,8 @@ package test;
 
 import java_backend.util.JsonParser;
 import java_backend.util.SimpleJsonParser;
-import bean.block.ActorData;
 import bean.map.BaseBattleField;
+import guide.ActorData;
 
 public class Actor2JsonTest {
     public static void main(String[] args) {

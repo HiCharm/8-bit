@@ -1,6 +1,9 @@
-package bean.block;
+package guide;
 
 import java.util.Map;
+
+import bean.block.Actor;
+
 import java.util.HashMap;
 
 public class ActorData {
