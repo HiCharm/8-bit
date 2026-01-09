@@ -33,22 +33,22 @@ public class BaseBattleField {
         return height;
     }
 
+    public List<List<Actor>> getField() {
+        return field;
+    }
+
     public Actor getActorAt(int x, int y) {
-        // 增加坐标合法性校验
         if (y < 0 || y >= field.size() || x < 0 || x >= field.get(y).size()) {
             return null;
         }
-        // 嵌套ArrayList：field.get(y).get(x)
         return field.get(y).get(x);
     }
 
     public void setActorAt(int x, int y, Actor actor) {
-        // 增加坐标合法性校验
         if (y < 0 || y >= field.size() || x < 0 || x >= field.get(y).size()) {
             throw new IllegalArgumentException("坐标(x=" + x + ", y=" + y + ")超出战场范围");
         }
         actor.setPosition(x, y);
-        // 嵌套ArrayList：field.get(y).set(x, actor)
         field.get(y).set(x, actor);
     }
 

@@ -5,7 +5,7 @@ import java_backend.util.SimpleJsonParser;
 import bean.map.BaseBattleField;
 import guide.ActorData;
 
-public class Actor2JsonTest {
+public class BattleField2JsonTest {
     public static void main(String[] args) {
         JsonParser jsonParser = new SimpleJsonParser();
 

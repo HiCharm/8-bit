@@ -3,12 +3,12 @@ package java_backend;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
+import bean.map.*;
 import java_backend.DataService.*;
-import java_backend.Handler.Get.GetActorHandler;
-import java_backend.Handler.Get.GetUserHandler;
-import java_backend.Handler.Update.UpdateActorHandler;
-import java_backend.Handler.Update.UpdateUserHandler;
+import java_backend.Handler.Get.*;
+import java_backend.Handler.Update.*;
 import java_backend.Outer.*;
+import java_backend.Handler.Update.UpdateUserHandler;
 import java_backend.Response.*;
 import java_backend.Router.*;
 import java_backend.util.JsonParser;
@@ -66,6 +66,7 @@ public class JavaBackendServer {
             ResponseBuilder responseBuilder = new JsonResponseBuilder(jsonParser);
             DataService<Integer> playerHealthService = new PlayerHealthService();
             DataService<String> userActionService = new UserActionService();
+            DataService<BaseBattleField> battleFieldService = new BattleFieldService(new BaseBattleField(10, 10));
             
             // 注册处理器
             router.addRoute("/api/actor/Player", "GET", 
@@ -76,6 +77,8 @@ public class JavaBackendServer {
                 new GetUserHandler(responseBuilder, userActionService));
             router.addRoute("/api/user/update", "POST", 
                 new UpdateUserHandler(responseBuilder, userActionService, jsonParser));
+            router.addRoute("/api/battlefield_All", "GET", 
+                new GetBattleFieldHandler(responseBuilder, battleFieldService));
             
             // 启动服务器
             JavaBackendServer backendServer = new JavaBackendServer(router, responseBuilder);
