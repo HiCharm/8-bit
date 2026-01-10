@@ -1,6 +1,5 @@
 import tkinter as tk
 import requests
-import datetime
 import BattleField
 
 class FrontendApp:
@@ -37,8 +36,6 @@ class FrontendApp:
         self.postButton = tk.Button(root, text="发送POST信息", command=self.postRequest)
         self.postButton.pack(pady=10)
 
-    
-        
     def postRequest(self, data):
         url = self.url + "/api/actor/update"
 
@@ -60,29 +57,43 @@ class FrontendApp:
             self.label.config(text=f"连接后端失败: {str(e)}")
 
     # 上下左右，交互，技能，大招
-    def moveUp(self):
+    def moveUp(self, event=None):
         self.postRequest({"type": "up"})
     
-    def moveDown(self):
+    def moveDown(self, event=None):
         self.postRequest({"type": "down"})
     
-    def moveLeft(self):
+    def moveLeft(self, event=None):
         self.postRequest({"type": "left"})
     
-    def moveRight(self):
+    def moveRight(self, event=None):
         self.postRequest({"type": "right"})
     
-    def interact(self):
-        self.postRequest({"type": "interact"})
+    def interact(self, x, event=None):
+        self.postRequest({"type": f"{x}"})
 
-    def useSkill(self):
+    def useSkill(self, event=None):
         self.postRequest({"type": "useSkill"})
 
-    def useExplosion(self):
+    def useExplosion(self, event=None):
         self.postRequest({"type": "useExplosion"})
+
+    def bindKeys(self):
+        self.root.bind("<Up>", self.moveUp)
+        self.root.bind("<Down>", self.moveDown)
+        self.root.bind("<Left>", self.moveLeft)
+        self.root.bind("<Right>", self.moveRight)
+        self.root.bind("w", self.moveUp)
+        self.root.bind("s", self.moveDown)
+        self.root.bind("a", self.moveLeft)
+        self.root.bind("d", self.moveRight)
+        self.root.bind("i", self.interact)
+        self.root.bind("j", self.useSkill)
+        self.root.bind("k", self.useExplosion)
     
 
 if __name__ == "__main__":
     root = tk.Tk()
     app = FrontendApp(root)
+    app.bindKeys()
     root.mainloop()
