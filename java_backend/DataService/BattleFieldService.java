@@ -24,4 +24,5 @@ public class BattleFieldService implements DataService<BaseBattleField> {
     public boolean validateData(BaseBattleField data) {
         return data != null && data.getWidth() > 0 && data.getHeight() > 0;
     }
+
 }

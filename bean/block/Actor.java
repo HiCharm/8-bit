@@ -9,7 +9,7 @@ public class Actor{
     private int x;
     private int y;
 
-    boolean isIntreactive;
+    public boolean isIntreactive;
 
     public Actor(int health, int color, int strength, String type, int x, int y, boolean isIntreactive) {
         this.health = health;

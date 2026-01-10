@@ -66,6 +66,7 @@ public class JavaBackendServer {
             ResponseBuilder responseBuilder = new JsonResponseBuilder(jsonParser);
             DataService<Integer> playerHealthService = new PlayerHealthService();
             DataService<String> userActionService = new UserActionService();
+            DataService<String> InteractService = new InteractService();
             DataService<BaseBattleField> battleFieldService = new BattleFieldService(new SceneBegin());
             
             // 注册处理器
@@ -79,6 +80,8 @@ public class JavaBackendServer {
                 new UpdateUserHandler(responseBuilder, userActionService, jsonParser));
             router.addRoute("/api/battlefield_All", "GET", 
                 new GetBattleFieldHandler(responseBuilder, battleFieldService));
+            router.addRoute("/api/interact/content", "GET",
+                new GetInteractContentHandler(responseBuilder, InteractService));
             
             // 启动服务器
             JavaBackendServer backendServer = new JavaBackendServer(router, responseBuilder);
