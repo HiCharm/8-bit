@@ -3,7 +3,6 @@ package java_backend.util;
 import bean.map.BaseBattleField;
 import bean.block.Actor;
 import bean.block.InteractActor;
-import java_backend.DataService.InteractService;
 import java_backend.Outer.DataService;
 
 public class BattleFieldTools {
