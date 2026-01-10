@@ -16,7 +16,7 @@ public class UpdateUserHandler extends BaseHandler {
     public UpdateUserHandler(ResponseBuilder responseBuilder,
                              DataService<String> userActionService,
                              JsonParser jsonParser) {
-        super("/api/user/update", "POST", responseBuilder);
+        super("/api/action", "POST", responseBuilder);
         this.userActionService = userActionService;
         this.jsonParser = jsonParser;
     }

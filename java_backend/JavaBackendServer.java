@@ -73,9 +73,9 @@ public class JavaBackendServer {
                 new GetActorHandler(responseBuilder, playerHealthService));
             router.addRoute("/api/actor/update", "POST", 
                 new UpdateActorHandler(responseBuilder, playerHealthService, jsonParser));
-            router.addRoute("/api/user/action", "GET", 
+            router.addRoute("/api/action", "GET", 
                 new GetUserHandler(responseBuilder, userActionService));
-            router.addRoute("/api/user/update", "POST", 
+            router.addRoute("/api/action", "POST", 
                 new UpdateUserHandler(responseBuilder, userActionService, jsonParser));
             router.addRoute("/api/battlefield_All", "GET", 
                 new GetBattleFieldHandler(responseBuilder, battleFieldService));

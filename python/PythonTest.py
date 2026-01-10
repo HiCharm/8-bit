@@ -34,7 +34,7 @@ def test_java_post_api():
 
 def test_java_user_get_api():
     """调用 Java 的 GET 接口：获取 User Action 数据"""
-    url = f"{JAVA_BASE_URL}/api/user/action"
+    url = f"{JAVA_BASE_URL}/api/action"
     try:
         response = requests.get(url)
         print("\n=== User GET 调用结果 ===")
@@ -47,7 +47,7 @@ def test_java_user_get_api():
 
 def test_java_user_post_api():
     """调用 Java 的 POST 接口：更新 User Action"""
-    url = f"{JAVA_BASE_URL}/api/user/update"
+    url = f"{JAVA_BASE_URL}/api/action"
     # 要发送给 Java 的数据
     data = {"action": "down"}
     try:

@@ -14,7 +14,7 @@ public class GetUserHandler extends BaseHandler {
     private final DataService<String> userActionService;
 
     public GetUserHandler(ResponseBuilder responseBuilder, DataService<String> userActionService) {
-        super("/api/user/action", "GET", responseBuilder);
+        super("/api/action", "GET", responseBuilder);
         this.userActionService = userActionService;
     }
 
