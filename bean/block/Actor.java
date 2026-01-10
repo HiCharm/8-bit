@@ -9,17 +9,20 @@ public class Actor{
     private int x;
     private int y;
 
-    public Actor(int health, int score, int strength, String type, int x, int y) {
+    boolean isIntreactive;
+
+    public Actor(int health, int score, int strength, String type, int x, int y, boolean isIntreactive) {
         this.health = health;
         this.score = score;
         this.strength = strength;
         this.type = type;
         this.x = x;
         this.y = y;
+        this.isIntreactive = isIntreactive;
     }
 
     public Actor copy(){
-        return new Actor(this.health, this.score, this.strength, this.type, this.x, this.y);
+        return new Actor(this.health, this.score, this.strength, this.type, this.x, this.y, this.isIntreactive);
     }
 
     public int getHealth() {
