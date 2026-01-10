@@ -26,4 +26,4 @@ POST /api/action
 
 ### 参数接受
 
-“up、down、left、right、interact、useSkill、useExplosion”
+“up、down、left、right、nomove、interact、useSkill、useExplosion”

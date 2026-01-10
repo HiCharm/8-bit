@@ -19,6 +19,7 @@ public class GetInteractContentHandler extends BaseHandler {
     public void handle(HttpExchange exchange) throws IOException {
         try {
             String interactContent = interactContentService.getData();
+            interactContentService.updateData("");
 
             // 将交互内容进行sql映射
 

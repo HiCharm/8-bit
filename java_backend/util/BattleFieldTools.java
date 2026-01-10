@@ -4,6 +4,7 @@ import bean.map.BaseBattleField;
 import bean.block.Actor;
 import bean.block.InteractActor;
 import java_backend.DataService.InteractService;
+import java_backend.Outer.DataService;
 
 public class BattleFieldTools {
 
@@ -11,7 +12,7 @@ public class BattleFieldTools {
         for (int y = 0; y < battleField.getHeight(); y++) {
             for (int x = 0; x < battleField.getWidth(); x++) {
                 Actor actor = battleField.getActorAt(x, y);
-                if (actor != null) {
+                if (actor != null && !actor.getType().equals("Player")) {
                     MoveActor.moveActorDown(actor, battleField);
                 }
             }
@@ -36,7 +37,7 @@ public class BattleFieldTools {
         }
 
     }
-    public static void movePlayer(BaseBattleField battleField, int x, int y, int direction, InteractService interactService){
+    public static void movePlayer(BaseBattleField battleField, int x, int y, int direction, DataService<String> interactService){
         Actor player = battleField.getActorAt(x, y);
         int newX = x;
         int newY = y;
@@ -48,6 +49,10 @@ public class BattleFieldTools {
             newY = y-1;
         }else if(direction == 3){
             newX = x-1;
+        }else if(direction == -1){
+            newX = x;
+            newY = y;
+            return;
         }
         boolean moveRes = MoveActor.moveActorTo(player, newX, newY, battleField);
 

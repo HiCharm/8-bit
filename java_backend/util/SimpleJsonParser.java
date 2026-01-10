@@ -1,5 +1,6 @@
 package java_backend.util;
 
+import bean.block.Actor;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,10 +28,10 @@ public class SimpleJsonParser implements JsonParser {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Integer extractHealth(String json) {
+    public Actor extractActor(String json) {
         try {
             Map<String, Object> map = objectMapper.readValue(json, Map.class);
-            return (Integer) map.get("health");
+            return new Actor((int) map.get("health"), (int) map.get("color"), (int) map.get("strength"), (String) map.get("type"), (int) map.get("x"), (int) map.get("y"), (boolean) map.get("isIntreactive"));
         } catch (Exception e) {
             System.err.println("JSON解析异常: " + e.getMessage());
             return null;

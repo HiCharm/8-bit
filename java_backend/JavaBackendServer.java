@@ -3,6 +3,7 @@ package java_backend;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
+import bean.block.*;
 import bean.map.*;
 import java_backend.DataService.*;
 import java_backend.Handler.Get.*;
@@ -64,20 +65,20 @@ public class JavaBackendServer {
             Router router = new MapBasedRouter();
             JsonParser jsonParser = new SimpleJsonParser();
             ResponseBuilder responseBuilder = new JsonResponseBuilder(jsonParser);
-            DataService<Integer> playerHealthService = new PlayerHealthService();
+            DataService<Actor> playerActorService = new PlayerActorService();
             DataService<String> userActionService = new UserActionService();
             DataService<String> InteractService = new InteractService();
             DataService<BaseBattleField> battleFieldService = new BattleFieldService(new SceneBegin());
             
             // 注册处理器
-            router.addRoute("/api/actor/Player", "GET", 
-                new GetActorHandler(responseBuilder, playerHealthService));
-            router.addRoute("/api/actor/update", "POST", 
-                new UpdateActorHandler(responseBuilder, playerHealthService, jsonParser));
+            router.addRoute("/api/player", "GET", 
+                new GetActorHandler(responseBuilder, playerActorService));
+            router.addRoute("/api/player", "POST", 
+                new UpdateActorHandler(responseBuilder, playerActorService, jsonParser));
             router.addRoute("/api/action", "GET", 
                 new GetUserHandler(responseBuilder, userActionService));
             router.addRoute("/api/action", "POST", 
-                new UpdateUserHandler(responseBuilder, userActionService, jsonParser));
+                new UpdateUserHandler(responseBuilder, playerActorService, userActionService, InteractService, battleFieldService, jsonParser));
             router.addRoute("/api/battlefield_All", "GET", 
                 new GetBattleFieldHandler(responseBuilder, battleFieldService));
             router.addRoute("/api/interact/content", "GET",

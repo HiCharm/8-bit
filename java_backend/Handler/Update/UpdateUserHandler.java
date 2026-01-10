@@ -1,9 +1,11 @@
 package java_backend.Handler.Update;
 
+import bean.block.Actor;
 import com.sun.net.httpserver.HttpExchange;
-
+import bean.map.BaseBattleField;
 import java_backend.Outer.DataService;
 import java_backend.Outer.ResponseBuilder;
+import java_backend.util.BattleFieldTools;
 import java_backend.util.JsonParser;
 import java_backend.Handler.BaseHandler;
 import java.io.IOException;
@@ -12,13 +14,22 @@ import java.util.Map;
 public class UpdateUserHandler extends BaseHandler {
     private final DataService<String> userActionService;
     private final JsonParser jsonParser;
+    private final DataService<BaseBattleField> battleFieldService;
+    private final DataService<String> InteractService;
+    private final DataService<Actor> playerActorService;
 
     public UpdateUserHandler(ResponseBuilder responseBuilder,
+                            DataService<Actor> playerActorService,
                              DataService<String> userActionService,
+                             DataService<String> InteractService,
+                             DataService<BaseBattleField> battleFieldService,
                              JsonParser jsonParser) {
         super("/api/action", "POST", responseBuilder);
         this.userActionService = userActionService;
         this.jsonParser = jsonParser;
+        this.battleFieldService = battleFieldService;
+        this.playerActorService = playerActorService;
+        this.InteractService = InteractService;
     }
 
     @Override
@@ -30,6 +41,26 @@ public class UpdateUserHandler extends BaseHandler {
             String newAction = jsonParser.extractAction(requestBody);
             if (newAction != null && userActionService.validateData(newAction)) {
                 userActionService.updateData(newAction);
+
+                // 处理玩家行为
+                if(newAction.equals("interact")){
+
+                }else if(newAction.equals("useSkill")){
+
+                }else if(newAction.equals("useExplosion")){
+
+                }else{
+                    BattleFieldTools.moveDownAll(battleFieldService.getData());
+                    int direction = -1;
+                    switch (newAction) {
+                        case "up" -> direction = 0;
+                        case "right" -> direction = 1;
+                        case "down" -> direction = 2;
+                        case "left" -> direction = 3;
+                    }
+                    Actor player = playerActorService.getData();
+                    BattleFieldTools.movePlayer(battleFieldService.getData(),player.getX(),player.getY(),direction,InteractService);
+                }
 
                 Map<String, Object> responseData = Map.of(
                     "action", newAction
