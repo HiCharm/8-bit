@@ -9,11 +9,4 @@ public class EachOther {
         B.setHealth(newHealth);
     }
 
-    static public void AgetScoreFromB(Actor A, Actor B) {
-        int newScore = A.getScore() + B.getScore();
-        A.setScore(newScore);
-    }
-
-    
-
 }

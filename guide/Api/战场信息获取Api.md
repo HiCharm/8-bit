@@ -21,7 +21,7 @@ GET /api/battlefield_All
 Actor对象内部
 {
     "health" : 5,
-    "score" : 0,
+    "color" : 0,
     "strength" : 1,
     "type" : "Player",
     "x" : 0,

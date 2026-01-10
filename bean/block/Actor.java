@@ -2,7 +2,7 @@ package bean.block;
 
 public class Actor{
     private int health;
-    private int score;
+    private int color;
     private int strength;
     private String type;
 
@@ -11,9 +11,9 @@ public class Actor{
 
     boolean isIntreactive;
 
-    public Actor(int health, int score, int strength, String type, int x, int y, boolean isIntreactive) {
+    public Actor(int health, int color, int strength, String type, int x, int y, boolean isIntreactive) {
         this.health = health;
-        this.score = score;
+        this.color = color;
         this.strength = strength;
         this.type = type;
         this.x = x;
@@ -22,7 +22,7 @@ public class Actor{
     }
 
     public Actor copy(){
-        return new Actor(this.health, this.score, this.strength, this.type, this.x, this.y, this.isIntreactive);
+        return new Actor(this.health, this.color, this.strength, this.type, this.x, this.y, this.isIntreactive);
     }
 
     public int getHealth() {
@@ -31,11 +31,11 @@ public class Actor{
     public void setHealth(int health) {
         this.health = health;
     }
-    public int getScore() {
-        return score;
+    public int getColor() {
+        return color;
     }
-    public void setScore(int score) {
-        this.score = score;
+    public void setColor(int color) {
+        this.color = color;
     }
     public int getStrength() {
         return strength;
