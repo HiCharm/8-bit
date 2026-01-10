@@ -40,7 +40,7 @@ public class UpdateUserHandler extends BaseHandler {
 
             String newAction = jsonParser.extractAction(requestBody);
             if (newAction != null && userActionService.validateData(newAction)) {
-                userActionService.updateData(newAction);
+                userActionService.updateData("");
 
                 // 处理玩家行为
                 if(newAction.equals("interact")){
