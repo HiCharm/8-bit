@@ -2,7 +2,7 @@
 
 ## 玩家行为获取
 
-### 接口地址
+### 获取接口地址
 
 GET /api/action
 
@@ -14,7 +14,7 @@ GET /api/action
 
 ## 玩家行为更新
 
-### 接口地址
+### 更新接口地址
 
 POST /api/action
 
