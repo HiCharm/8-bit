@@ -66,7 +66,7 @@ public class JavaBackendServer {
             ResponseBuilder responseBuilder = new JsonResponseBuilder(jsonParser);
             DataService<Integer> playerHealthService = new PlayerHealthService();
             DataService<String> userActionService = new UserActionService();
-            DataService<BaseBattleField> battleFieldService = new BattleFieldService(new BaseBattleField(10, 10));
+            DataService<BaseBattleField> battleFieldService = new BattleFieldService(new SceneBegin());
             
             // 注册处理器
             router.addRoute("/api/actor/Player", "GET", 

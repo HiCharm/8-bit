@@ -52,6 +52,21 @@ public class BaseBattleField {
         field.get(y).set(x, actor);
     }
 
+    public void filledActor(int x,int y, int width, int height, Actor actor){
+        if(width<=0 || height<=0){
+            throw new IllegalArgumentException("宽度和高度必须大于0");
+        }
+        if(x<0 || y<0 || x+width>this.width || y+height>this.height){
+            throw new IllegalArgumentException("超出战场范围");
+        }
+
+        for(int i=y;i<y+height;i++){
+            for(int j=x;j<x+width;j++){
+                setActorAt(j, i, actor.copy());
+            }
+        }
+    }
+
     public void addRow() {
         List<Actor> newRow = new ArrayList<>(width);
         for (int i = 0; i < width; i++) {
