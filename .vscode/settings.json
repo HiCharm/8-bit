@@ -1,5 +1,9 @@
 {
     "java.project.referencedLibraries": [
+<<<<<<< HEAD
         "lib/**/*.jar"  // 加载lib文件夹下所有的JAR包
+=======
+        "lib/**/*.jar"
+>>>>>>> afda0f1b22c60d21eb12cdeae7397abe7770c616
     ]
 }
