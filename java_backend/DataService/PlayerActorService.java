@@ -6,6 +6,10 @@ import java_backend.Outer.DataService;
 // 玩家血量服务
 public class PlayerActorService implements DataService<Actor> {
     private Actor player;
+
+    public PlayerActorService(Actor player) {
+        this.player = player;
+    }
     
     @Override
     public Actor getData() {

@@ -14,12 +14,26 @@ public class MoveActor {
         if (battleField.getActorAt(newX, newY) != null) {
             return false; // Position occupied
         }
-
+        if(actor.getType().equals("Player")){
+            System.out.println("move Player to (" + newX + ", " + newY + ")");
+        }
         // Move the actor
-        battleField.setActorAt(actor.getX(), actor.getY(), null); // Remove from old position
         battleField.setActorAt(newX, newY, actor); // Place in new position
+        if(actor.getType().equals("Player")){
+            System.out.println("move Player to (" + newX + ", " + newY + ")");
+        }
+        battleField.setNullAt(actor.getX(), actor.getY()); // Remove from old position
+        if(actor.getType().equals("Player")){
+            System.out.println("move Player to (" + newX + ", " + newY + ")");
+        }
         actor.setX(newX);
+        if(actor.getType().equals("Player")){
+            System.out.println("move Player to (" + newX + ", " + newY + ")");
+        }
         actor.setY(newY);
+        if(actor.getType().equals("Player")){
+            System.out.println("move Player to (" + newX + ", " + newY + ")");
+        }
 
         return true; // Move successful
     }
@@ -43,7 +57,7 @@ public class MoveActor {
     }
 
     static public boolean releaseActor(Actor actor, BaseBattleField battleField){
-        battleField.setActorAt(actor.getX(), actor.getY(), null);
+        battleField.setNullAt(actor.getX(), actor.getY());
         return true;
     }
 

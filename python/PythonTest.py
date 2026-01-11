@@ -6,7 +6,7 @@ JAVA_BASE_URL = "http://127.0.0.1:8080"
 
 def test_java_get_api():
     """调用 Java 的 GET 接口：获取 Player 数据"""
-    url = f"{JAVA_BASE_URL}/api/actor/Player"
+    url = f"{JAVA_BASE_URL}/api/player"
     try:
         response = requests.get(url)
         print("=== GET 调用结果 ===")
@@ -18,10 +18,10 @@ def test_java_get_api():
         print(f"GET 调用失败：{e}")
 
 def test_java_post_api():
-    """调用 Java 的 POST 接口：更新 Player 血量"""
-    url = f"{JAVA_BASE_URL}/api/actor/update"
+    """调用 Java 的 POST 接口：更新 Player 数据"""
+    url = f"{JAVA_BASE_URL}/api/action"
     # 要发送给 Java 的数据
-    data = {"type": "Player", "health": 20}
+    data = {"action": "down"}
     try:
         # 调试：将data转为json格式并打印
         response = requests.post(url, json=data)
@@ -74,5 +74,8 @@ def test_java_battlefield_get_api():
 
 if __name__ == '__main__':
     
+    test_java_get_api()
+    test_java_post_api()
+    test_java_get_api()
     # 测试战场的 GET 接口
-    test_java_battlefield_get_api()
+    

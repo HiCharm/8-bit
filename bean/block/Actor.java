@@ -27,7 +27,7 @@ public class Actor{
         this.isIntreactive = isIntreactive;
         this.width = 1;
         this.height = 1;
-        this.nomove = false;
+        this.nomove = nomove;
     }
 
     public Actor copy(){

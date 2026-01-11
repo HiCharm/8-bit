@@ -44,6 +44,13 @@ public class BaseBattleField {
         return field.get(y).get(x);
     }
 
+    public void setNullAt(int x, int y) {
+        if (y < 0 || y >= field.size() || x < 0 || x >= field.get(y).size()) {
+            throw new IllegalArgumentException("坐标(x=" + x + ", y=" + y + ")超出战场范围");
+        }
+        field.get(y).set(x, null);
+    }
+
     public void setActorAt(int x, int y, Actor actor) {
         if (y < 0 || y >= field.size() || x < 0 || x >= field.get(y).size()) {
             throw new IllegalArgumentException("坐标(x=" + x + ", y=" + y + ")超出战场范围");

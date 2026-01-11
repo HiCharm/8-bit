@@ -65,11 +65,11 @@ public class JavaBackendServer {
             Router router = new MapBasedRouter();
             JsonParser jsonParser = new SimpleJsonParser();
             ResponseBuilder responseBuilder = new JsonResponseBuilder(jsonParser);
-            DataService<Actor> playerActorService = new PlayerActorService();
             DataService<String> userActionService = new UserActionService();
             DataService<String> InteractService = new InteractService();
             DataService<BaseBattleField> battleFieldService = new BattleFieldService(new SceneBegin());
             DataService<String> SelectBlockService = new SelectBlockService();
+            DataService<Actor> playerActorService = new PlayerActorService(battleFieldService.getData().getActorAt(6, 6));
             
             // 注册处理器
             router.addRoute("/api/player", "GET", 

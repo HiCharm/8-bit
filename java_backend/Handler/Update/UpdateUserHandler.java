@@ -40,10 +40,14 @@ public class UpdateUserHandler extends BaseHandler {
         try {
             String requestBody = readRequestBody(exchange);
             System.out.println("收到 POST 请求体：" + requestBody);
+            
 
             String newAction = jsonParser.extractAction(requestBody);
+            
             if (newAction != null && userActionService.validateData(newAction)) {
+                
                 userActionService.updateData("");
+                
 
                 // 处理玩家行为
                 if(newAction.equals("interact")){
@@ -53,7 +57,9 @@ public class UpdateUserHandler extends BaseHandler {
                 }else if(newAction.equals("useExplosion")){
 
                 }else{
+                    
                     BattleFieldTools.moveDownAll(battleFieldService.getData());
+                    
                     int direction = -1;
                     switch (newAction) {
                         case "up" -> direction = 0;
@@ -62,7 +68,9 @@ public class UpdateUserHandler extends BaseHandler {
                         case "left" -> direction = 3;
                     }
                     Actor player = playerActorService.getData();
+                    
                     BattleFieldTools.movePlayer(battleFieldService.getData(),player.getX(),player.getY(),direction,InteractService,SelectBlockService);
+                    
                 }
 
                 Map<String, Object> responseData = Map.of(

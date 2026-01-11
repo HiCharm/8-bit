@@ -12,6 +12,9 @@ public class BattleFieldTools {
             for (int x = 0; x < battleField.getWidth(); x++) {
                 Actor actor = battleField.getActorAt(x, y);
                 if (actor != null && !actor.getType().equals("Player") && !actor.nomove) {
+                    System.out.println("actor type: " + actor.getType());
+                    System.out.println("actor nomove: " + actor.nomove);
+                    System.out.println("Moving down actor at (" + x + ", " + y + ")");
                     MoveActor.moveActorDown(actor, battleField);
                 }
             }
@@ -38,16 +41,18 @@ public class BattleFieldTools {
     }
 
     public static void movePlayer(BaseBattleField battleField, int x, int y, int direction, DataService<String> interactService,DataService<String> SelectBlockService){
+        
         String[] direction2String = {"up", "right", "down", "left", "none"};
         Actor player = battleField.getActorAt(x, y);
+
         int newX = x;
         int newY = y;
         if(direction == 0){
-            newY = y+1;
+            newY = y-1;
         }else if(direction == 1){
             newX = x+1;
         }else if(direction == 2){
-            newY = y-1;
+            newY = y+1;
         }else if(direction == 3){
             newX = x-1;
         }else if(direction == -1){
@@ -56,7 +61,10 @@ public class BattleFieldTools {
             SelectBlockService.updateData("none");
             return;
         }
+        
+        
         boolean moveRes = MoveActor.moveActorTo(player, newX, newY, battleField);
+        
 
         Actor target = battleField.getActorAt(newX, newY);
         if(moveRes == false){
@@ -64,6 +72,7 @@ public class BattleFieldTools {
             // 若指向的是敌对目标，则进行攻击计算
             if(target != null && target.isIntreactive){
                 if(target instanceof InteractActor){
+                    System.out.println("false moveRes interactActor");
 
                     SelectBlockService.updateData(direction2String[direction]);
                     InteractActor interactActor = (InteractActor) target;
@@ -72,6 +81,7 @@ public class BattleFieldTools {
                 }
             }else if(target != null && !target.isIntreactive){
                 // 敌对目标，进行攻击计算
+                System.out.println("false moveRes attack");
                 attack(player, target, battleField);
             }
         }else{
@@ -83,6 +93,7 @@ public class BattleFieldTools {
             Actor upTarget = battleField.getActorAt(newX, newY-1);
             if(leftTarget != null && leftTarget.isIntreactive){
                 if(leftTarget instanceof InteractActor){
+                    System.out.println("true moveRes interactActor left");
                     SelectBlockService.updateData("left");
                     InteractActor interactActor = (InteractActor) leftTarget;
                     String interactContent = interactActor.getInteractContent();
@@ -90,6 +101,7 @@ public class BattleFieldTools {
                 }
             }else if(downTarget != null && downTarget.isIntreactive){
                 if(downTarget instanceof InteractActor){
+                    System.out.println("true moveRes interactActor down");
                     SelectBlockService.updateData("down");
                     InteractActor interactActor = (InteractActor) downTarget;
                     String interactContent = interactActor.getInteractContent();
@@ -97,6 +109,7 @@ public class BattleFieldTools {
                 }
             }else if(rightTarget != null && rightTarget.isIntreactive){
                 if(rightTarget instanceof InteractActor){
+                    System.out.println("true moveRes interactActor right");
                     SelectBlockService.updateData("right");
                     InteractActor interactActor = (InteractActor) rightTarget;
                     String interactContent = interactActor.getInteractContent();
@@ -104,6 +117,7 @@ public class BattleFieldTools {
                 }
             }else if(upTarget != null && upTarget.isIntreactive){
                 if(upTarget instanceof InteractActor){
+                    System.out.println("true moveRes interactActor up");
                     SelectBlockService.updateData("up");
                     InteractActor interactActor = (InteractActor) upTarget;
                     String interactContent = interactActor.getInteractContent();
