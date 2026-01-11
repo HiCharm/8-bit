@@ -7,15 +7,17 @@
 GET /api/battlefield_All
 
 ### 获得内容
-
 {
-  "width": 10,               // 战场宽度
-  "height": 10,              // 战场高度
-  "field": [                 // 战场二维数组，表示每个位置的角色信息
-    [ Actor, Actor, ... ],
-    [ Actor, null,   ... ],
-    ...
-  ]
+  "code" : 200,
+  "data" :{
+    "width": 10,               // 战场宽度
+    "height": 10,              // 战场高度
+    "field": [                 // 战场二维数组，表示每个位置的角色信息
+      [ Actor, Actor, ... ],
+      [ Actor, null,   ... ],
+      ...
+    ]
+  }
 }
 
 Actor对象内部

@@ -1,11 +1,5 @@
 {
     "java.project.referencedLibraries": [
-        "c:\\Users\\15630\\Desktop\\8-bit\\lib\\mysql-connector-j-9.5.0.jar",
-        "c:\\Users\\15630\\Desktop\\8-bit\\lib\\jackson-annotations-2.9.9.jar",
-        "c:\\Users\\15630\\Desktop\\8-bit\\lib\\jackson-core-2.9.9.jar",
-        "c:\\Users\\15630\\Desktop\\8-bit\\lib\\jackson-databind-2.9.9.jar"
-    ],
-    "java.project.sourcePaths": [
-        "."
+        "lib/**/*.jar"  // 加载lib文件夹下所有的JAR包
     ]
 }

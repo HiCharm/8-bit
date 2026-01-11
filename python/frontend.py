@@ -43,7 +43,7 @@ class FrontendApp:
         self.debugInfo = tk.Label(self.rightFrame, text="", font=("Arial", 16))
         self.debugInfo.grid(row=2, column=0, pady=10)
 
-        self.getRequest(api="/api/battlefield_All")
+        self.getField()
 
         # # 创建按钮用于发送GET请求
         # self.button = tk.Button(self.root, text="发送GET请求", command=self.getRequest)
@@ -53,21 +53,21 @@ class FrontendApp:
         # self.postButton = tk.Button(self.root, text="发送POST信息", command=self.postRequest)
         # self.postButton.grid(row=1, column=1, pady=10)
 
-    def postRequest(self, data, api="/api/actor/update"):
+    def postRequest(self, data, api="/api/action"):
         url = self.url + api
         if not isinstance(data, dict):
-            data = {"type": data}
+            data = {"action": data}
         try:
             response = requests.post(url, json=data)
-            self.label.config(text=f"状态码：{response.status_code}\n响应数据：{response.json()}")
+            self.debugInfo.config(text=f"状态码：{response.status_code}\n响应数据：{response.json()}")
         except Exception as e:
-            self.label.config(text=f"连接后端失败: {str(e)}")
+            self.debugInfo.config(text=f"连接后端失败: {str(e)}")
 
-    def getRequest(self, api="/api/actor/Player"):
+    def getField(self, api="/api/battlefield_All"):
         url = self.url + api
         try:
             response = requests.get(url)
-            json_data = response.json()
+            json_data = response.json()["data"]
             w = json_data["width"]
             h = json_data["height"]
             map_data = json_data["field"]
@@ -85,27 +85,36 @@ class FrontendApp:
         except Exception as e:
             self.debugInfo.config(text=f"GET连接后端失败: {str(e)}")
 
+    def getRequest(self, api):
+        url = self.url + api
+        try:
+            response = requests.get(url)
+            json_data = response.json()["data"]
+            self.debugInfo.config(text=f"{api}：{json_data}")
+        except Exception as e:
+            self.debugInfo.config(text=f"GET连接后端失败: {str(e)}")
+
     # 上下左右，交互，技能，大招
     def moveUp(self, event=None):
-        self.postRequest({"type": "up"})
+        self.postRequest("up")
     
     def moveDown(self, event=None):
-        self.postRequest({"type": "down"})
+        self.postRequest("down")
     
     def moveLeft(self, event=None):
-        self.postRequest({"type": "left"})
+        self.postRequest("left")
     
     def moveRight(self, event=None):
-        self.postRequest({"type": "right"})
+        self.postRequest("right")
     
     def interact(self, x, event=None):
-        self.postRequest({"type": f"{x}"})
+        self.postRequest(f"{x}")
 
     def useSkill(self, event=None):
-        self.postRequest({"type": "useSkill"})
+        self.postRequest("useSkill")        
 
     def useExplosion(self, event=None):
-        self.postRequest({"type": "useExplosion"})
+        self.postRequest("useExplosion")
 
     def bindKeys(self):
         self.root.bind("<Up>", self.moveUp)

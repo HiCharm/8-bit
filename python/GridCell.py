@@ -10,6 +10,10 @@ bg_colors = {
             3: "#9400D3",  # 深紫罗兰 毒
         }
 
+type_to_path ={
+    "Player": "res/player.png",
+}
+
 class GridCell:
     """
     场景网格的细分单元格类
@@ -42,7 +46,7 @@ class GridCell:
         if unit:
             self.unitLabel = tk.Label(self.root)
             self.unitLabel.grid(row=0, column=0, rowspan=3 + int(not self.showHealth), columnspan=4, sticky='nsew')
-            self.unitLabel.image = ImageTk.PhotoImage(Image.open(self.unit["imagePath"]))
+            self.unitLabel.image = ImageTk.PhotoImage(Image.open(type_to_path[self.unit["type"]]))
             self.unitLabel.config(image=self.unitLabel.image, bg=self.bg_color)
             self.root.bind("<Configure>", self.resizeUnitImage)
 
@@ -55,7 +59,7 @@ class GridCell:
     def resizeUnitImage(self, event):
         w = self.root.winfo_width()
         h = self.root.winfo_height()
-        image = Image.open(self.unit["imagePath"])
+        image = Image.open(type_to_path[self.unit["type"]])
         resizedImage = image.resize((w, h * (3 + int(not self.showHealth)) // 4), Image.Resampling.LANCZOS)
         self.unitLabel.image = ImageTk.PhotoImage(resizedImage)
         self.unitLabel.config(image=self.unitLabel.image)
@@ -165,6 +169,8 @@ class GridCellManager:
             for col in range(self.grid_shape[1]):
                 # 为每个位置创建一个GridCell
                 unit = map[row][col]
+                if (not unit) or (unit["type"] != "Player"):
+                    unit = None 
                 cell = GridCell(self.main_frame, unit=unit, cellType=(row + col) % 4)
                 cell.grid(row=row, column=col, sticky="nsew")
                 self.grid_cells.append(cell)
@@ -175,18 +181,14 @@ class GridCellManager:
         """
         # 测试用Unit
         unit = {
-            "health": 10,
-            "type": 0,
-            "imagePath": "./res/player.png"
+            "health": 8,
+            "type": "Player",
         }
         map = []
         for row in range(self.grid_shape[0]):
             map.append([])
             for col in range(self.grid_shape[1]):
-                map[row].append({
-                    "unit": unit,
-                    "type": (row + col) % 4
-                })
+                map[row].append(unit)
         return map
 
     def checkSize(self, size):
