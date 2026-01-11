@@ -10,7 +10,7 @@ public class SceneBegin extends BaseBattleField {
         filledActor(3,0,2,3,actorData.getActor("CoinEnterII"));
         filledActor(6,0,2,3,actorData.getActor("CoinEnterIII"));
 
-        filledActor(7,0,2,4,actorData.getActor("trainPlace"));
+        filledActor(0,7,2,4,actorData.getActor("trainPlace"));
         filledActor(9,9,3,2,actorData.getActor("guidePlace"));
 
         setActorAt(5, 6, actorData.getActor("NPC"));
