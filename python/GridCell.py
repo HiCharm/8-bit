@@ -1,9 +1,14 @@
 import tkinter as tk
-from tkinter import PhotoImage
 from PIL import Image, ImageTk
 import os
 import random
 
+bg_colors = {
+            0: "#CD853F",  # 秘鲁 普通地板
+            1: "#FF4500",  # 橙红色 火
+            2: "#00BFFF",  # 深天蓝 冰
+            3: "#9400D3",  # 深紫罗兰 毒
+        }
 
 class GridCell:
     """
@@ -23,24 +28,27 @@ class GridCell:
         """
         self.master = master
         self.unit = unit
-        self.cellType = cellType
+        self.showHealth = showHealth
+        self.bg_color = bg_colors.get(cellType, "#FFFFFF")
 
         self.root = tk.Frame(self.master)
         for i in range(4):
             self.root.grid_rowconfigure(i, weight=1)
             self.root.grid_columnconfigure(i, weight=1)
 
-        self.setType()
+        # 设置背景颜色
+        self.root.config(bg=self.bg_color, relief="groove", bd=1)
 
         if unit:
             self.unitLabel = tk.Label(self.root)
-            self.unitLabel.grid(row=0, column=0, rowspan=3, columnspan=4, sticky='nsew')
+            self.unitLabel.grid(row=0, column=0, rowspan=3 + int(not self.showHealth), columnspan=4, sticky='nsew')
             self.unitLabel.image = ImageTk.PhotoImage(Image.open(self.unit["imagePath"]))
-            self.unitLabel.config(image=self.unitLabel.image)
+            self.unitLabel.config(image=self.unitLabel.image, bg=self.bg_color)
             self.root.bind("<Configure>", self.resizeUnitImage)
-            if showHealth:
-                self.heartLabels = []
-                self.heartQueue = []
+
+            self.heartLabels = []
+            self.heartQueue = []
+            if self.showHealth:
                 self.setHealth()
                 self.root.bind("<Configure>", self.resizeSmallImage, add="+")
 
@@ -48,7 +56,7 @@ class GridCell:
         w = self.root.winfo_width()
         h = self.root.winfo_height()
         image = Image.open(self.unit["imagePath"])
-        resizedImage = image.resize((w, h*3//4), Image.Resampling.LANCZOS)
+        resizedImage = image.resize((w, h * (3 + int(not self.showHealth)) // 4), Image.Resampling.LANCZOS)
         self.unitLabel.image = ImageTk.PhotoImage(resizedImage)
         self.unitLabel.config(image=self.unitLabel.image)
 
@@ -61,32 +69,13 @@ class GridCell:
             photo = ImageTk.PhotoImage(resizedImage)
             label.config(image=photo)
             label.image = photo
-        
-                
+
     def grid(self, row, column, rowspan=1, columnspan=1, **kwargs):
         """
         为GridCell提供与tkinter一致的grid方法
         """
         self.root.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan, **kwargs)
 
-    def setType(self):
-        """
-        设置单元格的类型
-        每个GridCell代表场景中4x4的网格区域
-        """
-        # 根据单元格类型设置不同的背景
-        bg_colors = {
-            0: "#FFFFFF",  # 普通单元格
-            1: "#E0E0E0",  # 地形单元格
-            2: "#FFE0E0",  # 危险单元格
-            3: "#E0FFE0",  # 安全单元格
-        }
-        
-        bg_color = bg_colors.get(self.cellType, "#FFFFFF")
-        self.root.config(bg=bg_color, relief="groove", bd=1)
-        
-        # 移除小网格之间的分割线，只保留大网格之间的分割线
-        
     def setHealth(self):
         """
         设置单元格的生命值
@@ -129,53 +118,85 @@ class GridCell:
         # 创建一个标签来显示图片
         label = tk.Label(self.root)
         label.grid(row=place[0], column=place[1], rowspan=shape[0], columnspan=shape[1], sticky="news")
-        label.bind("<Configure>", 
-                    lambda event, label=label, initImage=initImage: self.resizeImage(event, label, initImage),
-                    add="+")
         label.image = ImageTk.PhotoImage(initImage)
-        label.config(image=label.image)
+        label.config(image=label.image, bg=self.bg_color)
         self.heartLabels.append(label)
 
 class GridCellManager:
-    def __init__(self, root, grid_size, grid_position=(0, 0), grid_shape=(8, 8)):
+    def __init__(self, root, grid_size, grid_position=(0, 0), grid_shape=(8, 8), **kwargs):
         '''
         初始化整个网格, grid_shape(8*8个大网格) * 4*4(每个小网格的尺寸) = 总共32*32个网格
         root: 父容器
         grid_size: 所有GridCell(即GridCellManager)的长宽
         grid_position: 网格在父容器中的位置
         grid_shape: 网格的形状
+        kwargs: 其他grid的设置(如padx, pady)
         '''
 
         # 创建一个主框架来容纳所有GridCell
         self.main_frame = tk.Frame(root)
-        self.main_frame.grid(row=grid_position[0], column=grid_position[1], sticky="nsew")
-        
+        self.main_frame.grid(row=grid_position[0], column=grid_position[1], sticky="nsew", **kwargs)
+        self.grid_shape = grid_shape
+
         # 配置主框架的网格布局
-        for i in range(grid_shape[0]):
+        for i in range(self.grid_shape[0]):
             self.main_frame.grid_rowconfigure(i, weight=1)
-        for i in range(grid_shape[1]):
+        for i in range(self.grid_shape[1]):
             self.main_frame.grid_columnconfigure(i, weight=1)
 
         # 配置根窗口的网格布局
         root.grid_rowconfigure(grid_position[0], weight=1)
         root.grid_columnconfigure(grid_position[1], weight=1)
 
-        # 测试用Unit
-        self.unit = {
-            "health": 10,
-            "type": 0,
-            "imagePath": "./res/20260110_150013.png"
-        }
-
+    def initMap(self):
+        """
+        创建初始地图
+        """
         self.grid_cells = []
-        for row in range(grid_shape[0]):
-            for col in range(grid_shape[1]):
-                # 为每个位置创建一个GridCell
-                cell_type = (row + col) % 4  # 为了演示效果，使用不同的单元格类型
-                cell = GridCell(self.main_frame, unit=random.choice([self.unit, None]), cellType=cell_type)
+        for row in range(self.grid_shape[0]):
+            for col in range(self.grid_shape[1]):
+                cell = GridCell(self.main_frame, unit=None, cellType=(row+col)%4)
                 cell.grid(row=row, column=col, sticky="nsew")
                 self.grid_cells.append(cell)
 
+    def readMap(self, map):
+        self.grid_cells = []
+        for row in range(self.grid_shape[0]):
+            for col in range(self.grid_shape[1]):
+                # 为每个位置创建一个GridCell
+                unit = map[row][col]
+                cell = GridCell(self.main_frame, unit=unit, cellType=(row + col) % 4)
+                cell.grid(row=row, column=col, sticky="nsew")
+                self.grid_cells.append(cell)
+
+    def createTestMap(self):
+        """
+        创建一个测试用的地图
+        """
+        # 测试用Unit
+        unit = {
+            "health": 10,
+            "type": 0,
+            "imagePath": "./res/player.png"
+        }
+        map = []
+        for row in range(self.grid_shape[0]):
+            map.append([])
+            for col in range(self.grid_shape[1]):
+                map[row].append({
+                    "unit": unit,
+                    "type": (row + col) % 4
+                })
+        return map
+
+    def checkSize(self, size):
+        """
+        检查地图是否符合网格大小
+        size: 地图的大小
+        """
+        if size[0] != self.grid_shape[0] or size[1] != self.grid_shape[1]:
+            return False
+        return True
 
 if __name__ == "__main__":
     # 运行示例
@@ -184,11 +205,9 @@ if __name__ == "__main__":
     root.title("嵌套网格布局示例")
     
     # 配置根窗口的网格布局
-    root.grid_rowconfigure(0, weight=1)
-    root.grid_columnconfigure(0, weight=1)
+    # root.grid_rowconfigure(0, weight=1)
+    # root.grid_columnconfigure(0, weight=1)
     
     grid_cell_manager = GridCellManager(root, grid_size=(800, 600))
 
     root.mainloop()
-
-    

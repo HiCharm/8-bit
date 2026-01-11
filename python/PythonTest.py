@@ -73,17 +73,6 @@ def test_java_battlefield_get_api():
 
 
 if __name__ == '__main__':
-    # 先调用 GET 获取初始数据
-    test_java_get_api()
-    # 再调用 POST 更新数据
-    test_java_post_api()
-    # 最后再调用 GET 验证更新结果
-    test_java_get_api()
-
-    # 测试 User Action 的 GET 和 POST 接口
-    test_java_user_get_api()
-    test_java_user_post_api()
-    test_java_user_get_api()
     
     # 测试战场的 GET 接口
     test_java_battlefield_get_api()
