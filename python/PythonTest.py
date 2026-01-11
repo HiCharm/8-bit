@@ -74,11 +74,12 @@ def test_java_battlefield_get_api():
 
 if __name__ == '__main__':
     
-    test_java_battlefield_get_api()
+    # test_java_battlefield_get_api()
 
     test_java_get_api()
     test_java_post_api()
+    test_java_post_api()
     test_java_get_api()
     
-    test_java_battlefield_get_api()
+    # test_java_battlefield_get_api()
     

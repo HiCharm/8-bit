@@ -40,6 +40,10 @@ public class BaseBattleField {
         if (y < 0 || y >= field.size() || x < 0 || x >= field.get(y).size()) {
             return null;
         }
+        if(field.get(y).get(x)!=null)
+            System.out.println("getActor yx type:" + field.get(y).get(x).getType() + " x="+x + " y="+y);
+        if(field.get(x).get(y)!=null)
+            System.out.println("getActor xy type:" + field.get(x).get(y).getType() + " x="+x + " y="+y);
         return field.get(y).get(x);
     }
 

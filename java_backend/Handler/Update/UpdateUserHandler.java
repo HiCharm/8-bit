@@ -69,8 +69,9 @@ public class UpdateUserHandler extends BaseHandler {
                     }
                     Actor player = playerActorService.getData();
                     
-                    BattleFieldTools.movePlayer(battleFieldService.getData(),player.getX(),player.getY(),direction,InteractService,SelectBlockService);
+                    player = BattleFieldTools.movePlayer(battleFieldService.getData(),player.getX(),player.getY(),direction,InteractService,SelectBlockService);
                     
+                    playerActorService.updateData(player);
                 }
 
                 Map<String, Object> responseData = Map.of(

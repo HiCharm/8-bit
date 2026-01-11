@@ -40,10 +40,12 @@ public class BattleFieldTools {
 
     }
 
-    public static void movePlayer(BaseBattleField battleField, int x, int y, int direction, DataService<String> interactService,DataService<String> SelectBlockService){
+    public static Actor movePlayer(BaseBattleField battleField, int x, int y, int direction, DataService<String> interactService,DataService<String> SelectBlockService){
         
         String[] direction2String = {"up", "right", "down", "left", "none"};
+        System.out.println("get player");
         Actor player = battleField.getActorAt(x, y);
+        System.out.println("movePlayer: " + direction2String[direction] + " from (" + x + ", " + y + ")");
 
         int newX = x;
         int newY = y;
@@ -59,14 +61,17 @@ public class BattleFieldTools {
             newX = x;
             newY = y;
             SelectBlockService.updateData("none");
-            return;
+            return player;
         }
         
-        
+        System.out.println("movePlayer: " + direction2String[direction] + " from (" + x + ", " + y + ") to (" + newX + ", " + newY + ")");
+        System.out.println("player type: " + player.getType());
         boolean moveRes = MoveActor.moveActorTo(player, newX, newY, battleField);
+        System.out.println("after move:" + player.getX() + " " + player.getY());
         
-
         Actor target = battleField.getActorAt(newX, newY);
+
+        System.out.println("moveRes: " + moveRes);
         if(moveRes == false){
             // 判断是否移动向可交互目标
             // 若指向的是敌对目标，则进行攻击计算
@@ -86,11 +91,16 @@ public class BattleFieldTools {
             }
         }else{
             // 若指向非可交互目标，则从左、下、右、上依次检查可交互目标
-            // 若有可交互目标，则将可交互信息存储进缓存中，等待前端get
+            // 若有可交互目标，则将可交互信息存储进缓存中，等待前端g
+            System.out.println("after get actor");
             Actor leftTarget = battleField.getActorAt(newX-1, newY);
+            System.out.println("after get actor");
             Actor downTarget = battleField.getActorAt(newX, newY+1);
+            System.out.println("after get actor");
             Actor rightTarget = battleField.getActorAt(newX+1, newY);
+            System.out.println("after get actor");
             Actor upTarget = battleField.getActorAt(newX, newY-1);
+            System.out.println("after get actor");
             if(leftTarget != null && leftTarget.isIntreactive){
                 if(leftTarget instanceof InteractActor){
                     System.out.println("true moveRes interactActor left");
@@ -126,7 +136,7 @@ public class BattleFieldTools {
             }
 
         }
-        
+        return player;
 
     }
 

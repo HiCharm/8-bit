@@ -5,9 +5,17 @@ import bean.map.BaseBattleField;
 
 public class MoveActor {
     static public boolean moveActorTo(Actor actor, int newX, int newY, BaseBattleField battleField) {
+        if(actor.getType().equals("Player"))
+        {
+            System.out.println("1moveActorTo: " + actor.getType() + " from (" + actor.getX() + "," + actor.getY() + ") to (" + newX + "," + newY + ")");
+        }
         // Check if the new position is within bounds
         if (newX < 0 || newX >= battleField.getWidth() || newY < 0 || newY >= battleField.getHeight()) {
             return false; // Out of bounds
+        }
+        if(actor.getType().equals("Player"))
+        {
+            System.out.println("2moveActorTo: " + actor.getType() + " from (" + actor.getX() + "," + actor.getY() + ") to (" + newX + "," + newY + ")");
         }
 
         // Check if the target position is empty
@@ -15,15 +23,27 @@ public class MoveActor {
             return false; // Position occupied
         }
 
+        if(actor.getType().equals("Player"))
+        {
+            System.out.println("3moveActorTo: " + actor.getType() + " from (" + actor.getX() + "," + actor.getY() + ") to (" + newX + "," + newY + ")");
+        }
         // Move the actor
-        battleField.setActorAt(newX, newY, actor); // Place in new position
+        battleField.setNullAt(actor.getX(), actor.getY()); // Place in new position
 
-        battleField.setNullAt(actor.getX(), actor.getY()); // Remove from old position
+        if(actor.getType().equals("Player"))
+        {
+            System.out.println("4moveActorTo: " + actor.getType() + " from (" + actor.getX() + "," + actor.getY() + ") to (" + newX + "," + newY + ")");
+        }
 
-        actor.setX(newX);
+         // Remove from old position
+        battleField.setActorAt(newX, newY, actor);
+        // actor.setX(newX);
 
-        actor.setY(newY);
-
+        // actor.setY(newY);
+        if(actor.getType().equals("Player"))
+        {
+            System.out.println("5moveActorTo: " + actor.getType() + " from (" + actor.getX() + "," + actor.getY() + ") to (" + newX + "," + newY + ")");
+        }
 
         return true; // Move successful
     }
