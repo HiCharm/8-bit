@@ -17,19 +17,22 @@ public class UpdateUserHandler extends BaseHandler {
     private final DataService<BaseBattleField> battleFieldService;
     private final DataService<String> InteractService;
     private final DataService<Actor> playerActorService;
+    private final DataService<String> SelectBlockService;
 
     public UpdateUserHandler(ResponseBuilder responseBuilder,
                             DataService<Actor> playerActorService,
                              DataService<String> userActionService,
                              DataService<String> InteractService,
                              DataService<BaseBattleField> battleFieldService,
+                             DataService<String> SelectBlockService,
                              JsonParser jsonParser) {
         super("/api/action", "POST", responseBuilder);
         this.userActionService = userActionService;
         this.jsonParser = jsonParser;
+        this.InteractService = InteractService;
+        this.SelectBlockService = SelectBlockService;
         this.battleFieldService = battleFieldService;
         this.playerActorService = playerActorService;
-        this.InteractService = InteractService;
     }
 
     @Override
@@ -59,7 +62,7 @@ public class UpdateUserHandler extends BaseHandler {
                         case "left" -> direction = 3;
                     }
                     Actor player = playerActorService.getData();
-                    BattleFieldTools.movePlayer(battleFieldService.getData(),player.getX(),player.getY(),direction,InteractService);
+                    BattleFieldTools.movePlayer(battleFieldService.getData(),player.getX(),player.getY(),direction,InteractService,SelectBlockService);
                 }
 
                 Map<String, Object> responseData = Map.of(

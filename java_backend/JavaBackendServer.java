@@ -69,6 +69,7 @@ public class JavaBackendServer {
             DataService<String> userActionService = new UserActionService();
             DataService<String> InteractService = new InteractService();
             DataService<BaseBattleField> battleFieldService = new BattleFieldService(new SceneBegin());
+            DataService<String> SelectBlockService = new SelectBlockService();
             
             // 注册处理器
             router.addRoute("/api/player", "GET", 
@@ -78,7 +79,7 @@ public class JavaBackendServer {
             router.addRoute("/api/action", "GET", 
                 new GetUserHandler(responseBuilder, userActionService));
             router.addRoute("/api/action", "POST", 
-                new UpdateUserHandler(responseBuilder, playerActorService, userActionService, InteractService, battleFieldService, jsonParser));
+                new UpdateUserHandler(responseBuilder, playerActorService, userActionService, InteractService, battleFieldService, SelectBlockService, jsonParser));
             router.addRoute("/api/battlefield_All", "GET", 
                 new GetBattleFieldHandler(responseBuilder, battleFieldService));
             router.addRoute("/api/interact/content", "GET",
