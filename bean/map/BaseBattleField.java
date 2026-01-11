@@ -14,7 +14,6 @@ public class BaseBattleField {
     public BaseBattleField(int width, int height) {
         this.width = width;
         this.height = height;
-        // 初始化动态二维结构：嵌套创建ArrayList
         this.field = new ArrayList<>();
         for (int i = 0; i < height; i++) {
             List<Actor> row = new ArrayList<>(width);
