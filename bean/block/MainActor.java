@@ -2,13 +2,13 @@ package bean.block;
 
 public class MainActor extends Actor {
 
-    public MainActor(int health, int color, int strength, String type, int x, int y) {
-        super(health, color, strength, type, x, y, false);
+    public MainActor(int health, int color, int strength, String type, int x, int y, boolean nomove) {
+        super(health, color, strength, type, x, y, false, nomove);
     }
 
     public MainActor copy() {
         return new MainActor(this.getHealth(), this.getColor(), this.getStrength(), this.getType(), this.getX(),
-                this.getY());
+                this.getY(), this.nomove);
     }
 
 }

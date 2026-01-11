@@ -11,7 +11,7 @@ public class BattleFieldTools {
         for (int y = 0; y < battleField.getHeight(); y++) {
             for (int x = 0; x < battleField.getWidth(); x++) {
                 Actor actor = battleField.getActorAt(x, y);
-                if (actor != null && !actor.getType().equals("Player")) {
+                if (actor != null && !actor.getType().equals("Player") && !actor.nomove) {
                     MoveActor.moveActorDown(actor, battleField);
                 }
             }

@@ -4,13 +4,13 @@ public class InteractActor extends Actor{
 
     private String interactContent;
     
-    public InteractActor(int health, int color, int strength, String type, int x, int y, boolean isIntreactive, String interactContent) {
-        super(health, color, strength, type, x, y, isIntreactive);
+    public InteractActor(int health, int color, int strength, String type, int x, int y, boolean isIntreactive, String interactContent, boolean nomove) {
+        super(health, color, strength, type, x, y, isIntreactive,nomove);
         this.interactContent = interactContent;
     }
 
     public InteractActor copy(){
-        return new InteractActor(this.getHealth(), this.getColor(), this.getStrength(), this.getType(), this.getX(), this.getY(), this.isIntreactive,this.interactContent);
+        return new InteractActor(this.getHealth(), this.getColor(), this.getStrength(), this.getType(), this.getX(), this.getY(), this.isIntreactive,this.interactContent, this.nomove);
     }
 
     public String getInteractContent() {

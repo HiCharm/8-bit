@@ -9,9 +9,15 @@ public class Actor{
     private int x;
     private int y;
 
+    public int width;
+    public int height;
+    public boolean nomove;
+
     public boolean isIntreactive;
 
-    public Actor(int health, int color, int strength, String type, int x, int y, boolean isIntreactive) {
+
+
+    public Actor(int health, int color, int strength, String type, int x, int y, boolean isIntreactive, boolean nomove) {
         this.health = health;
         this.color = color;
         this.strength = strength;
@@ -19,10 +25,13 @@ public class Actor{
         this.x = x;
         this.y = y;
         this.isIntreactive = isIntreactive;
+        this.width = 1;
+        this.height = 1;
+        this.nomove = false;
     }
 
     public Actor copy(){
-        return new Actor(this.health, this.color, this.strength, this.type, this.x, this.y, this.isIntreactive);
+        return new Actor(this.health, this.color, this.strength, this.type, this.x, this.y, this.isIntreactive, this.nomove);
     }
 
     public int getHealth() {

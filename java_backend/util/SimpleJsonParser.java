@@ -31,7 +31,7 @@ public class SimpleJsonParser implements JsonParser {
     public Actor extractActor(String json) {
         try {
             Map<String, Object> map = objectMapper.readValue(json, Map.class);
-            return new Actor((int) map.get("health"), (int) map.get("color"), (int) map.get("strength"), (String) map.get("type"), (int) map.get("x"), (int) map.get("y"), (boolean) map.get("isIntreactive"));
+            return new Actor((int) map.get("health"), (int) map.get("color"), (int) map.get("strength"), (String) map.get("type"), (int) map.get("x"), (int) map.get("y"), (boolean) map.get("isIntreactive"), (boolean) map.get("nomove"));
         } catch (Exception e) {
             System.err.println("JSON解析异常: " + e.getMessage());
             return null;
