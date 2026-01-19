@@ -6,7 +6,8 @@
 
 GET /api/battlefield_All
 
-### 获得内容
+### 获得内容、
+
 {
   "code" : 200,
   "data" :{

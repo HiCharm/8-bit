@@ -4,6 +4,10 @@ import bean.map.BaseBattleField;
 import bean.block.Actor;
 import bean.block.InteractActor;
 import java_backend.Outer.DataService;
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.HashSet;
 
 public class BattleFieldTools {
 
@@ -20,7 +24,7 @@ public class BattleFieldTools {
             }
         }
     }
-    public static void attack(Actor attacker, Actor defender, BaseBattleField battleField){
+    public static void attack(Actor attacker, Actor defender, BaseBattleField battleField, boolean isFirstAttack){
         int attackStrength = attacker.getStrength();
         int defenderStrength = defender.getStrength();
         int attackHealth = attacker.getHealth();
@@ -31,6 +35,9 @@ public class BattleFieldTools {
         if(MoveActor.actorDied(defender)){
             MoveActor.releaseActor(defender, battleField);
         }
+        if(!isFirstAttack){
+            return;
+        }
         attackHealth -= defenderStrength;
         attacker.setHealth(attackHealth);
         // 判断攻击者是否死亡，若死亡则从战场移除
@@ -38,6 +45,58 @@ public class BattleFieldTools {
             MoveActor.releaseActor(attacker, battleField);
         }
 
+    }
+
+    /**
+     * 连锁攻击：在执行一次基础攻击后，会对与被攻击者相邻且颜色相同的单位继续连锁攻击。
+     * 连锁传播按广度优先进行；连锁过程中若攻击者死亡则停止连锁。
+     * 连锁攻击复用已有的 {@link #attack(Actor, Actor, BaseBattleField)} 逻辑。
+     */
+    public static void chainAttackByColor(Actor attacker, Actor defender, BaseBattleField battleField){
+        // 先进行一次基础攻击
+        attack(attacker, defender, battleField, true);
+
+        // 如果攻击者已死亡，直接返回
+        if(MoveActor.actorDied(attacker)){
+            return;
+        }
+
+        // 使用队列进行广度优先连锁传播，按被攻击单位的颜色向四周扩散
+        Queue<Actor> q = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+
+        q.add(defender);
+        visited.add(defender.getX() + "," + defender.getY());
+
+        while(!q.isEmpty()){
+            Actor cur = q.poll();
+            int color = cur.getColor();
+            int cx = cur.getX();
+            int cy = cur.getY();
+
+            // 四个方向
+            int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
+            for(int[] d : dirs){
+                int nx = cx + d[0];
+                int ny = cy + d[1];
+                // 检查边界及是否已访问
+                if(nx < 0 || nx >= battleField.getWidth() || ny < 0 || ny >= battleField.getHeight()) continue;
+                String key = nx + "," + ny;
+                if(visited.contains(key)) continue;
+
+                Actor neighbor = battleField.getActorAt(nx, ny);
+                if(neighbor == null) continue;
+
+                // 只对颜色相同的单位触发连锁攻击
+                if(neighbor.getColor() == color){
+                    // 复用attack逻辑
+                    attack(attacker, neighbor, battleField, false);
+                    visited.add(key);
+                    
+                    q.add(neighbor);
+                }
+            }
+        }
     }
 
     public static Actor movePlayer(BaseBattleField battleField, int x, int y, int direction, DataService<String> interactService,DataService<String> SelectBlockService){
@@ -87,7 +146,7 @@ public class BattleFieldTools {
             }else if(target != null && !target.isIntreactive){
                 // 敌对目标，进行攻击计算
                 System.out.println("false moveRes attack");
-                attack(player, target, battleField);
+                chainAttackByColor(player, target, battleField);
             }
         }else{
             // 若指向非可交互目标，则从左、下、右、上依次检查可交互目标
