@@ -6,6 +6,7 @@ import bean.map.BaseBattleField;
 import java_backend.Outer.DataService;
 import java_backend.Outer.ResponseBuilder;
 import java_backend.util.BattleFieldTools;
+import java_backend.util.InteractTools;
 import java_backend.util.JsonParser;
 import java_backend.Handler.BaseHandler;
 import java.io.IOException;
@@ -53,6 +54,7 @@ public class UpdateUserHandler extends BaseHandler {
                 if(newAction.equals("interact")){
                     String interactContent = InteractService.getData();
                     // 处理交互内容
+                    InteractTools.routeInteract(interactContent, battleFieldService);
 
                 }else if(newAction.equals("useSkill")){
 
