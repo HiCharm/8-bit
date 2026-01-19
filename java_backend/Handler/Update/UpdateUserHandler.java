@@ -51,6 +51,8 @@ public class UpdateUserHandler extends BaseHandler {
 
                 // 处理玩家行为
                 if(newAction.equals("interact")){
+                    String interactContent = InteractService.getData();
+                    // 处理交互内容
 
                 }else if(newAction.equals("useSkill")){
 

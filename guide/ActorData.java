@@ -16,8 +16,8 @@ public class ActorData {
         // here add new actor
         // data: health, score, strength, type, x, y
         actorData.put("Player", new Actor(5, 0, 1, "Player", 0, 0, false, false));
-        actorData.put("smallMonster", new Actor(2, 10, 1, "smallMonster", 0, 0, false,false));
-        actorData.put("bigMonster", new Actor(3, 20, 2, "bigMonster", 0, 0, false,false));
+        actorData.put("smallMonster", new Actor(2, 1, 1, "smallMonster", 0, 0, false,false));
+        actorData.put("bigMonster", new Actor(3, 2, 2, "bigMonster", 0, 0, false,false));
         actorData.put("Wall", new Actor(2, 5, 0, "Wall", 0, 0, false,false));
         
         // add interact actor
